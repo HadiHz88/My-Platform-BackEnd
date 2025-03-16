@@ -25,6 +25,6 @@ class Project extends Model
      */
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'project_tags');
+        return $this->belongsToMany(Tag::class);
     }
 }
