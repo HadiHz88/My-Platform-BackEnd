@@ -5,20 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Entry extends Model
+class Course extends Model
 {
-    /** @use HasFactory<\Database\Factories\EntryFactory> */
+    /** @use HasFactory<\Database\Factories\CourseFactory> */
     use HasFactory;
 
     public $timestamps = false;
 
     protected $fillable = [
-        'title',
+        'name',
+        'code',
         'description',
-        'organization',
-        'location',
-        'type',
-        'start_date',
-        'end_date',
+        'difficulty',
+        'semester',
+        'credits',
     ];
 }
