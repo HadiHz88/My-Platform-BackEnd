@@ -8,9 +8,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('test', function () {
-    $tags = \App\Models\Tag::all();
+    $projects = \App\Models\Project::with(['tags', 'likes', 'views'])->get();
     return Inertia::render('test', [
-        'tags' => $tags,
+        'projects' => $projects,
     ]);
 })->name('test');
 
