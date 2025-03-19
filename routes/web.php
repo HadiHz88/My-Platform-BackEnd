@@ -7,6 +7,13 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
+Route::get('test', function () {
+    $tags = \App\Models\Tag::all();
+    return Inertia::render('test', [
+        'tags' => $tags,
+    ]);
+})->name('test');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Course;
+use App\Models\Tag;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,13 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('materials', function (Blueprint $table) {
+        Schema::create('course_tag', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
-            $table->string('title');
-            $table->string('description')->nullable();
-            $table->enum('type', ['video', 'image', 'pdf', 'link', 'code', 'markdown', 'other']);
-            $table->string('url');
+            $table->foreignIdFor(Tag::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('materials');
+        Schema::dropIfExists('course_tag');
     }
 };
