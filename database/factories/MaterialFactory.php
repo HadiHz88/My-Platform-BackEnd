@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Course>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Material>
  */
-class CourseFactory extends Factory
+class MaterialFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,11 +17,10 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
-            'code' => $this->faker->word(),
+            'title' => $this->faker->word(),
             'description' => $this->faker->sentence(),
-            'credits' => $this->faker->randomDigit(),
-            'difficulty' => $this->faker->randomElement(['easy', 'medium', 'hard']),
+            'type' => $this->faker->randomElement(['video', 'image', 'pdf', 'link', 'code', 'markdown', 'other']),
+            'url' => $this->faker->url(),
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
         ];

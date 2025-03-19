@@ -28,6 +28,8 @@ class ProjectFactory extends Factory
             'github_url' => $this->faker->url(),
             'live_url' => $this->faker->url(),
             'type' => $this->faker->randomElement(['mini', 'personal', 'corporate']),
+            'created_at' => $this->faker->dateTime(),
+            'updated_at' => $this->faker->dateTime(),
         ];
     }
 }
