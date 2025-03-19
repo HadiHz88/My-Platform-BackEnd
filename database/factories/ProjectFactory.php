@@ -24,7 +24,7 @@ class ProjectFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraphs(3, true),
-            'image_url' => 'project-images/' . $this->faker->image('public/storage/project-images', 640, 480, null, false),
+            'image_url' => $this->faker->imageUrl(),
             'github_url' => $this->faker->url(),
             'live_url' => $this->faker->url(),
             'type' => $this->faker->randomElement(['mini', 'personal', 'corporate']),
