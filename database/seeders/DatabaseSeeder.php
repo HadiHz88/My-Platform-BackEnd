@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
 
         $createdTags = [];
         foreach ($tags as $tagData) {
-            $createdTags[$tagData['name']] = Tag::create($tagData);
+            $createdTags = Tag::firstOrCreate($tagData);
         }
 
         // Create projects

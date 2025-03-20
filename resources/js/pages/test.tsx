@@ -30,9 +30,10 @@ interface Project {
 
 interface Props {
     projects: Project[];
+    tags: Tag[]
 }
 
-const TestPage: React.FC<Props> = ({ projects }) => {
+const TestPage: React.FC<Props> = ({ projects, tags }) => {
     return (
         <div className="projects-container">
             <h1>Projects</h1>
@@ -67,6 +68,15 @@ const TestPage: React.FC<Props> = ({ projects }) => {
                     </div>
                 ))}
             </div>
+            <h1>Tags</h1>
+            {
+                tags.map((tag) => (
+                    <div color={tag.color}>
+                        <p>{tag.name}</p>
+                        <span className={tag.icon}/>
+                    </div>
+                ))
+            }
         </div>
     );
 };

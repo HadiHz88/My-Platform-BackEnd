@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('image_url')->nullable();
             $table->string('github_url')->nullable();
             $table->string('live_url')->nullable();
-            $table->enum('type', ['mini', 'personal', 'corporate']);
+            $table->enum('type', ['mini', 'personal', 'corporate', 'professional', 'open-source'])->default('personal');
             $table->timestamps();
         });
     }

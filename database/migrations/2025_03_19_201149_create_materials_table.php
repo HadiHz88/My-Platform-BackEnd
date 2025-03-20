@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->string('description')->nullable();
+            $table->enum('language', ['en', 'fr', 'ar'])->default('en');
             $table->enum('type', ['video', 'image', 'pdf', 'link', 'code', 'markdown', 'other']);
             $table->string('url');
             $table->timestamps();

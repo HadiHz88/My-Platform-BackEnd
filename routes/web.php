@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EntryController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -11,8 +12,10 @@ Route::get('/', function () {
 
 Route::get('test', function () {
     $projects = \App\Models\Project::with(['tags', 'likes', 'views'])->get();
+    $tags = \App\Models\Tag::all();
     return Inertia::render('test', [
         'projects' => $projects,
+        'tags' => $tags,
     ]);
 })->name('test');
 
