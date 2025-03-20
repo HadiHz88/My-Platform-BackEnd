@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,5 +22,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+// My Implementation
+Route::prefix('dashboard')->group(function () {
+    Route::resource('projects', ProjectController::class);
+    Route::resource('courses', CourseController::class);
+    Route::resource('entries', EntryController::class);
+});
+
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

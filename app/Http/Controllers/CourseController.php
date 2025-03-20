@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CourseController extends Controller
 {
@@ -12,7 +13,11 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $courses = Course::with(['tags', 'getLikesCount', 'getViewsCount', 'materials']);
+
+        return Inertia::render('Courses/Index', [
+            'courses' => $courses
+        ]);
     }
 
     /**
@@ -36,7 +41,9 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        return Inertia::render('Courses/Show', [
+            'course' => $course
+        ]);
     }
 
     /**

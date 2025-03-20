@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Entry;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EntryController extends Controller
 {
@@ -12,7 +13,11 @@ class EntryController extends Controller
         $works = Entry::where('type', 'work')->get()->all();
         $projects = Entry::where('type', 'project')->get()->all();
 
-        // return
+        return Inertia::render('Entries/Index', [
+            'educations' => $educations,
+            'works' => $works,
+            'projects' => $projects,
+        ]);
     }
 
     public function create(){
