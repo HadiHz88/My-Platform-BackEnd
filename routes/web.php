@@ -16,17 +16,13 @@ Route::get('test', function () {
     ]);
 })->name('test');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
-
 // My Implementation
-Route::prefix('dashboard')->group(function () {
-    Route::resource('projects', ProjectController::class);
-    Route::resource('courses', CourseController::class);
-    Route::resource('entries', EntryController::class);
+Route::middleware(['auth', 'role:admin', 'verified'])->group(function () {
+    Route::prefix('dashboard')->group(function () {
+        Route::resource('projects', ProjectController::class);
+        Route::resource('courses', CourseController::class);
+        Route::resource('entries', EntryController::class);
+    });
 });
 
 require __DIR__ . '/settings.php';
