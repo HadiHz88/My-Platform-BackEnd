@@ -23,6 +23,11 @@ class Blog extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function views(): MorphMany
     {
         return $this->morphMany(View::class, 'viewable');
