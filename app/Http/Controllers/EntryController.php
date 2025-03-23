@@ -13,11 +13,7 @@ class EntryController extends Controller
         $works = Entry::where('type', 'work')->get()->all();
         $projects = Entry::where('type', 'project')->get()->all();
 
-        return Inertia::render('Entries/Index', [
-            'educations' => $educations,
-            'works' => $works,
-            'projects' => $projects,
-        ]);
+        //
     }
 
     public function create(){
