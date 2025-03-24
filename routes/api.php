@@ -3,6 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::get('/test', function () {
+    return response()->json(['message' => 'Hello, World!']);
+});
+
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::resource('projects', DashboardProjectController::class);
+    // Add more routes here
+});
