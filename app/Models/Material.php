@@ -35,14 +35,16 @@ class Material extends Model
     }
 
     // Get total likes
-    public function getLikesCount(): int
+    public function getLikesCountAttribute(): int
     {
         return $this->likes()->count();
     }
 
     // Get total views
-    public function getViewsCount(): int
+    public function getViewsCountAttribute(): int
     {
         return $this->views()->count();
     }
+
+    protected $appends = ['likes_count', 'views_count'];
 }

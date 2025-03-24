@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->enum('difficulty', ['easy', 'normal', 'hard']);
+            $table->string('image')->nullable();
             $table->integer('semester')->unsigned();
             $table->integer('credits');
             $table->string('description')->nullable();
