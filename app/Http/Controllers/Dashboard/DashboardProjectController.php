@@ -37,7 +37,7 @@ class DashboardProjectController extends Controller
      */
     public function index()
     {
-        return response()->json(Project::with(['tags', 'getViewsCount', 'getLikesCount'])->get());
+        return response()->json(Project::with(['tags'])->get());
     }
 
     /**
