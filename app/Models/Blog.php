@@ -16,6 +16,7 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'body',
+        'image_url'
     ];
 
     public function tags(): BelongsToMany
@@ -38,13 +39,17 @@ class Blog extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function getLikesCount(): int
+    // Get total likes
+    public function getLikesCountAttribute(): int
     {
         return $this->likes()->count();
     }
 
-    public function getViewsCount(): int
+    // Get total views
+    public function getViewsCountAttribute(): int
     {
         return $this->views()->count();
     }
+
+    protected $appends = ['likes_count', 'views_count'];
 }
