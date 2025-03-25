@@ -20,5 +20,6 @@ class Entry extends Model
         'type',
         'start_date',
         'end_date',
+        'current',
     ];
 }

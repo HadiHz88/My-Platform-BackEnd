@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('organization');
+            $table->string('organization')->nullable();
             $table->string('location')->nullable();
-            $table->enum('type', ['work', 'volunteer', 'education']);
+            $table->enum('type', ['experience', 'volunteering', 'education']);
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->timestamps();
+            $table->boolean('current')->default(false);
         });
+
     }
 
     /**
