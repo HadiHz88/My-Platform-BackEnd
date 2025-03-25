@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Course extends Model
@@ -25,9 +26,14 @@ class Course extends Model
         'image',
     ];
 
-    public function materials(): HasMany
+    public function topics(): HasMany
     {
-        return $this->hasMany(Material::class);
+        return $this->hasMany(Topic::class);
+    }
+
+    public function materials(): HasManyThrough
+    {
+        return $this->hasManyThrough(Material::class, Topic::class);
     }
 
     public function tags(): BelongsToMany

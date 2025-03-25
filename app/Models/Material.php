@@ -17,11 +17,13 @@ class Material extends Model
         'description',
         'type',
         'url',
+        'order',
+        'topic_id'
     ];
 
-    public function course(): BelongsTo
+    public function topic(): BelongsTo
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Topic::class);
     }
 
     public function likes(): MorphMany

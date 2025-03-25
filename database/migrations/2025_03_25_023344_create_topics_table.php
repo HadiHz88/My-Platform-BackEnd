@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Course;
-use App\Models\Topic;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,14 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('materials', function (Blueprint $table) {
+        Schema::create('topics', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Topic::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->string('description')->nullable();
-            $table->enum('language', ['en', 'fr', 'ar'])->default('en');
-            $table->enum('type', ['video', 'image', 'pdf', 'link', 'code', 'markdown', 'other'])->default('other');
-            $table->string('url');
+            $table->text('description')->nullable();
             $table->unsignedInteger('order')->default(1);
             $table->timestamps();
         });
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('materials');
+        Schema::dropIfExists('topics');
     }
 };
