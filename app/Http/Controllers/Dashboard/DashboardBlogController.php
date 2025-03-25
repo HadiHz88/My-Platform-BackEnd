@@ -37,7 +37,7 @@ class DashboardBlogController extends Controller
      */
     public function index()
     {
-        return response()->json(Blog::with(['tags', 'comments'])->get());
+        return response()->json(Blog::with(['tags'])->get());
     }
 
     /**
@@ -51,7 +51,9 @@ class DashboardBlogController extends Controller
         $validated = $request->validate($this->getValidationRules());
         $blog = $this->saveBlog(new Blog(), $validated, $request);
 
-        return response()->json($blog, 201);
+        return response()->json([
+            'message' => 'Blog created successfully.',
+        ], 201);
     }
 
     /**
@@ -92,7 +94,9 @@ class DashboardBlogController extends Controller
         $validated = $request->validate($this->getValidationRules());
         $blog = $this->saveBlog($blog, $validated, $request);
 
-        return response()->json($blog);
+        return response()->json([
+            'message' => 'Blog updated successfully.',
+        ]);
     }
 
     /**
@@ -108,7 +112,9 @@ class DashboardBlogController extends Controller
         }
 
         $blog->delete();
-        return response()->json(null, 204);
+        return response()->json([
+            'message' => 'Blog deleted successfully.',
+        ], 204);
     }
 
     /**
