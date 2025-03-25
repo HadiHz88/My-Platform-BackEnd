@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Blog::class);
             $table->foreignIdFor(Tag::class);
-            $table->timestamps();
         });
     }
 
