@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Project;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectFactory extends Factory
@@ -31,5 +32,13 @@ class ProjectFactory extends Factory
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
         ];
+    }
+
+    public function configure(): ProjectFactory
+    {
+        return $this->afterCreating(function (Project $project) {
+            $tags = Tag::inRandomOrder()->limit(rand(1, 3))->pluck('id');
+            $project->tags()->attach($tags);
+        });
     }
 }
