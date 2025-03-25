@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use App\Models\Tag;
 use App\Services\ImageService;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 /**
  * Class DashboardBlogController
  *
- * Handles CRUD operations for blogs in the dashboard.
+ * This controller handles CRUD operations for blogs in the dashboard.
  */
 class DashboardBlogController extends Controller
 {
@@ -22,7 +23,7 @@ class DashboardBlogController extends Controller
     /**
      * DashboardBlogController constructor.
      *
-     * @param ImageService $imageService The service for handling image operations.
+     * @param ImageService $imageService The service for handling image storage operations.
      */
     public function __construct(ImageService $imageService)
     {
@@ -35,7 +36,7 @@ class DashboardBlogController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return response()->json(Blog::with(['tags'])->get());
     }
@@ -43,17 +44,65 @@ class DashboardBlogController extends Controller
     /**
      * Store a newly created blog in storage.
      *
-     * @param Request $request The request instance containing the blog data.
+     * @param BlogRequest $request The request instance containing the blog data.
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(BlogRequest $request): JsonResponse
     {
-        $validated = $request->validate($this->getValidationRules());
-        $blog = $this->saveBlog(new Blog(), $validated, $request);
+        $blog = $this->saveBlog(new Blog(), $request);
 
         return response()->json([
             'message' => 'Blog created successfully.',
         ], 201);
+    }
+
+    /**
+     * Save the blog instance with the provided data.
+     *
+     * @param Blog $blog The blog instance to save.
+     * @param BlogRequest $request The request instance containing the blog data.
+     * @return Blog The saved blog instance.
+     */
+    private function saveBlog(Blog $blog, BlogRequest $request): Blog
+    {
+        $validated = $request->validated();
+
+        $blog->title = $validated['title'];
+        $blog->body = $validated['body'];
+
+        if ($request->hasFile('image')) {
+            $idForFilename = $blog->exists ? $blog->id : (string)Str::uuid();
+            $blog->image_url = $this->imageService->update(
+                $request->file('image'),
+                $blog->image_url,
+                'blog',
+                $idForFilename
+            );
+        }
+
+        $blog->save();
+
+        if (isset($validated['tags'])) {
+            $blog->tags()->sync($validated['tags']);
+        }
+
+        return $blog;
+    }
+
+    /**
+     * Update the specified blog in storage.
+     *
+     * @param BlogRequest $request The request instance containing the updated blog data.
+     * @param Blog $blog The blog instance to update.
+     * @return JsonResponse
+     */
+    public function update(BlogRequest $request, Blog $blog): JsonResponse
+    {
+        $blog = $this->saveBlog($blog, $request);
+
+        return response()->json([
+            'message' => 'Blog updated successfully.',
+        ]);
     }
 
     /**
@@ -62,7 +111,7 @@ class DashboardBlogController extends Controller
      * @param Blog $blog The blog instance to display.
      * @return JsonResponse
      */
-    public function show(Blog $blog)
+    public function show(Blog $blog): JsonResponse
     {
         $blog->load(['tags', 'comments']);
         return response()->json($blog);
@@ -74,28 +123,11 @@ class DashboardBlogController extends Controller
      * @param Blog $blog The blog instance to edit.
      * @return JsonResponse
      */
-    public function edit(Blog $blog)
+    public function edit(Blog $blog): JsonResponse
     {
         return response()->json([
             'blog' => $blog,
             'tags' => Tag::all(),
-        ]);
-    }
-
-    /**
-     * Update the specified blog in storage.
-     *
-     * @param Request $request The request instance containing the updated blog data.
-     * @param Blog $blog The blog instance to update.
-     * @return JsonResponse
-     */
-    public function update(Request $request, Blog $blog)
-    {
-        $validated = $request->validate($this->getValidationRules());
-        $blog = $this->saveBlog($blog, $validated, $request);
-
-        return response()->json([
-            'message' => 'Blog updated successfully.',
         ]);
     }
 
@@ -105,65 +137,16 @@ class DashboardBlogController extends Controller
      * @param Blog $blog The blog instance to delete.
      * @return JsonResponse
      */
-    public function destroy(Blog $blog)
+    public function destroy(Blog $blog): JsonResponse
     {
         if ($blog->image_url) {
             $this->imageService->delete($blog->image_url);
         }
 
         $blog->delete();
+
         return response()->json([
             'message' => 'Blog deleted successfully.',
         ], 204);
-    }
-
-    /**
-     * Get the validation rules for storing and updating blogs.
-     *
-     * @return array The validation rules.
-     */
-    private function getValidationRules(): array
-    {
-        return [
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'image' => 'nullable|image|max:2048',
-            'tags' => 'nullable|array|exists:tags,id',
-        ];
-    }
-
-    /**
-     * Save the blog instance with the validated data.
-     *
-     * @param Blog $blog The blog instance to save.
-     * @param array $validated The validated data.
-     * @param Request $request The request instance containing the blog data.
-     * @return Blog The saved blog instance.
-     */
-    private function saveBlog(Blog $blog, array $validated, Request $request): Blog
-    {
-        // Set basic properties
-        $blog->title = $validated['title'];
-        $blog->body = $validated['body'];
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $idForFilename = $blog->exists ? $blog->id : (string) Str::uuid();
-            $blog->image_url = $this->imageService->update(
-                $request->file('image'),
-                $blog->image_url,
-                'blog',
-                $idForFilename
-            );
-        }
-
-        $blog->save();
-
-        // Handle tags
-        if (isset($validated['tags'])) {
-            $blog->tags()->sync($validated['tags']);
-        }
-
-        return $blog;
     }
 }

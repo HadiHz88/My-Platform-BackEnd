@@ -5,11 +5,11 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class EntryRequest
+ * Class BlogRequest
  *
- * This class handles the validation rules and authorization for entry requests.
+ * This class handles the validation rules and authorization for blog requests.
  */
-class EntryRequest extends FormRequest
+class BlogRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -20,13 +20,9 @@ class EntryRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'organization' => 'nullable|string|max:255',
-            'location' => 'nullable|string|max:255',
-            'type' => 'required|in:experience,volunteering,education',
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'current' => 'boolean',
+            'body' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+            'tags' => 'nullable|array|exists:tags,id',
         ];
     }
 
