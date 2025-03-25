@@ -9,6 +9,9 @@ Route::get('/test', function () {
 });
 
 Route::group(['prefix' => 'dashboard'], function () {
-    Route::resource('projects', DashboardProjectController::class);
-    // Add more routes here
+    Route::get('/projects', [DashboardProjectController::class, 'index']);
+    Route::get('/projects/{project}', [DashboardProjectController::class, 'show']);
+    Route::post('/projects', [DashboardProjectController::class, 'store']);
+    Route::put('/projects/{project}', [DashboardProjectController::class, 'update']);
+    Route::delete('/projects/{project}', [DashboardProjectController::class, 'destroy']);
 });

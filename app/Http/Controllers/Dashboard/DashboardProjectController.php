@@ -51,64 +51,9 @@ class DashboardProjectController extends Controller
         $validated = $request->validate($this->getValidationRules());
         $project = $this->saveProject(new Project(), $validated, $request);
 
-        return response()->json($project, 201);
-    }
-
-    /**
-     * Display the specified project.
-     *
-     * @param Project $project The project instance to display.
-     * @return JsonResponse
-     */
-    public function show(Project $project)
-    {
-        $project->load('tags');
-        return response()->json($project);
-    }
-
-    /**
-     * Show the form for editing the specified project.
-     *
-     * @param Project $project The project instance to edit.
-     * @return JsonResponse
-     */
-    public function edit(Project $project)
-    {
         return response()->json([
-            'project' => $project,
-            'tags' => Tag::all(),
-        ]);
-    }
-
-    /**
-     * Update the specified project in storage.
-     *
-     * @param Request $request The request instance containing the updated project data.
-     * @param Project $project The project instance to update.
-     * @return JsonResponse
-     */
-    public function update(Request $request, Project $project)
-    {
-        $validated = $request->validate($this->getValidationRules());
-        $project = $this->saveProject($project, $validated, $request);
-
-        return response()->json($project);
-    }
-
-    /**
-     * Remove the specified project from storage.
-     *
-     * @param Project $project The project instance to delete.
-     * @return JsonResponse
-     */
-    public function destroy(Project $project)
-    {
-        if ($project->image_url) {
-            $this->imageService->delete($project->image_url);
-        }
-
-        $project->delete();
-        return response()->json(null, 204);
+            'message' => 'Project created successfully.',
+        ], 201);
     }
 
     /**
@@ -148,7 +93,7 @@ class DashboardProjectController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $idForFilename = $project->exists ? $project->id : (string) Str::uuid();
+            $idForFilename = $project->exists ? $project->id : (string)Str::uuid();
             $project->image_url = $this->imageService->update(
                 $request->file('image'),
                 $project->image_url,
@@ -165,5 +110,65 @@ class DashboardProjectController extends Controller
         }
 
         return $project;
+    }
+
+    /**
+     * Update the specified project in storage.
+     *
+     * @param Request $request The request instance containing the updated project data.
+     * @param Project $project The project instance to update.
+     * @return JsonResponse
+     */
+    public function update(Request $request, Project $project)
+    {
+        $validated = $request->validate($this->getValidationRules());
+        $project = $this->saveProject($project, $validated, $request);
+
+        return response()->json([
+            'message' => 'Project updated successfully.',
+        ]);
+    }
+
+    /**
+     * Display the specified project.
+     *
+     * @param Project $project The project instance to display.
+     * @return JsonResponse
+     */
+    public function show(Project $project)
+    {
+        return response()->json($project->load('tags'));
+    }
+
+    /**
+     * Show the form for editing the specified project.
+     *
+     * @param Project $project The project instance to edit.
+     * @return JsonResponse
+     */
+    public function edit(Project $project)
+    {
+        return response()->json([
+            'project' => $project,
+            'tags' => Tag::all(),
+        ]);
+    }
+
+    /**
+     * Remove the specified project from storage.
+     *
+     * @param Project $project The project instance to delete.
+     * @return JsonResponse
+     */
+    public function destroy(Project $project)
+    {
+        if ($project->image_url) {
+            $this->imageService->delete($project->image_url);
+        }
+
+        $project->delete();
+        return response()->json([
+            'message' => 'Project deleted successfully.',
+        ], 204);
     }
 }
