@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Blog;
 use App\Models\Comment;
+use App\Models\Topic;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Project;
@@ -46,5 +47,12 @@ class DatabaseSeeder extends Seeder
                 'blog_id' => $blog->id,
             ]);
         });
+
+        // Create courses with related topics and materials
+        Course::factory(5)->has(
+            Topic::factory()->count(rand(2, 5))->has(
+                Material::factory()->count(rand(2, 5))
+            )
+        )->create();
     }
 }

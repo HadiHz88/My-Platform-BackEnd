@@ -12,6 +12,7 @@ class Material extends Model
     /** @use HasFactory<\Database\Factories\MaterialFactory> */
     use HasFactory;
 
+    public $timestamps = false;
     protected $fillable = [
         'title',
         'description',

@@ -22,7 +22,6 @@ return new class extends Migration
             $table->enum('type', ['video', 'image', 'pdf', 'link', 'code', 'markdown', 'other'])->default('other');
             $table->string('url');
             $table->unsignedInteger('order')->default(1);
-            $table->timestamps();
         });
     }
 

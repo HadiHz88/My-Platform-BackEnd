@@ -12,6 +12,8 @@ class Topic extends Model
     /** @use HasFactory<\Database\Factories\TopicFactory> */
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'title',
         'description',

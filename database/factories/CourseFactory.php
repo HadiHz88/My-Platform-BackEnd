@@ -21,9 +21,10 @@ class CourseFactory extends Factory
             'code' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'credits' => $this->faker->randomDigit(),
-            'difficulty' => $this->faker->randomElement(['easy', 'medium', 'hard']),
-            'created_at' => $this->faker->dateTime(),
-            'updated_at' => $this->faker->dateTime(),
+            'difficulty' => $this->faker->randomElement(['easy', 'normal', 'hard']),
+            'image' => $this->faker->imageUrl(),
+            'origin' => $this->faker->randomElement(['Lebanese University', 'Personal', 'Other']),
+            'semester' => $this->faker->randomDigit(),
         ];
     }
 }

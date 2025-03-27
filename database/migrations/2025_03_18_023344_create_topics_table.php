@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->unsignedInteger('order')->default(1);
-            $table->timestamps();
         });
     }
 

@@ -21,8 +21,7 @@ class MaterialFactory extends Factory
             'description' => $this->faker->sentence(),
             'type' => $this->faker->randomElement(['video', 'image', 'pdf', 'link', 'code', 'markdown', 'other']),
             'url' => $this->faker->url(),
-            'created_at' => $this->faker->dateTime(),
-            'updated_at' => $this->faker->dateTime(),
+            'order' => $this->faker->numberBetween(1, 100),
         ];
     }
 }
