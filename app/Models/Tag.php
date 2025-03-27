@@ -17,6 +17,7 @@ class Tag extends Model
         'name',
         'color',
         'icon',
+        'is_skill'
     ];
 
     /**
@@ -35,5 +36,10 @@ class Tag extends Model
     public function blogs(): BelongsToMany
     {
         return $this->belongsToMany(Blog::class);
+    }
+
+    public function scopeSkills($query)
+    {
+        return $query->where('is_skill', true);
     }
 }

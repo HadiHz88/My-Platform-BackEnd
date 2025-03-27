@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->boolean('is_skill')->default(false);
             $table->string('color')->nullable();
             $table->string('icon')->nullable();
+            $table->enum('category', ['Programming Languages', 'Frontend Frameworks', 'Backend Frameworks',
+                'Mobile Development', 'Databases', 'Cloud Technologies', 'Testing and CI/CD', 'Tools', 'Other'])->default('Other');
         });
     }
 
