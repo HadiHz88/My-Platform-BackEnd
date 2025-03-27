@@ -54,5 +54,7 @@ class DatabaseSeeder extends Seeder
                 Material::factory()->count(rand(2, 5))
             )
         )->create();
+
+        Entry::factory(7)->create();
     }
 }

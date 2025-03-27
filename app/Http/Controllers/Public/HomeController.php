@@ -20,7 +20,7 @@ class HomeController extends \App\Http\Controllers\Controller
         $latestProjects = Project::with('tags')->latest()->take(3)->get();
 
         // latest course updated
-        $latestCourses = Course::with(['tags'])->latest()->take(3)->get();
+        $latestCourses = Course::with(['tags'])->take(3)->get();
 
         return response()->json([
             'skills' => $skills,
