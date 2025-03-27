@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Blog;
 use App\Models\Comment;
 use App\Models\Topic;
@@ -22,15 +23,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create users
-        $admin = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'role' => 'admin',
-        ]);
+        // Check if admin already exists
+        $existingAdmin = Admin::first();
+
+        if (!$existingAdmin) {
+            Admin::create([
+                'email' => env('ADMIN_EMAIL', 'admin@yourdomain.com'),
+                'name' => 'Admin',
+                'password' => Hash::make(env('ADMIN_PASSWORD', 'password')),
+                'phone' => env('ADMIN_PHONE', ''),
+                'address' => env('ADMIN_ADDRESS', ''),
+                'image_url' => env('ADMIN_IMAGE_URL', ''),
+                'facebook_url' => env('ADMIN_FACEBOOK_URL', ''),
+                'instagram_url' => env('ADMIN_INSTAGRAM_URL', ''),
+                'linkedin_url' => env('ADMIN_LINKEDIN_URL', ''),
+                'github_url' => env('ADMIN_GITHUB_URL', ''),
+                'youtube_url' => env('ADMIN_YOUTUBE_URL', ''),
+                'bio' => env('ADMIN_BIO', ''),
+                'info' => env('ADMIN_INFO', '')
+            ]);
+        }
 
         // Create some users
         User::factory(10)->create();
