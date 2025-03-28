@@ -27,11 +27,7 @@ return new class extends Migration
             $table->text('bio')->nullable();
             $table->text('info')->nullable();
             $table->boolean('must_change_password')->default(true);
-            $table->boolean('is_active')->default(true);
-            $table->timestamp('last_login_at')->nullable();
             $table->rememberToken();
-
-            $table->timestamps();
         });
     }
 

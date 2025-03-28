@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\EnsureAdminIsAuthenticated;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             AddLinkHeadersForPreloadedAssets::class,
+        ]);
+
+        $middleware->alias([
+            'auth.admin' => EnsureAdminIsAuthenticated::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

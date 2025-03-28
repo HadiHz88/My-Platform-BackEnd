@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -121,6 +121,23 @@ return [
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
+    ],
+
+    'admin' => [
+        'name' => env('ADMIN_NAME', 'Hadi Hz Platform'),
+        'email' => env('ADMIN_EMAIL', 'admin@yourdomain.com'),
+        'password' => env('ADMIN_PASSWORD', 'password'),
+        'phone' => env('ADMIN_PHONE', '+968 78 998 530'),
+        'address' => env('ADMIN_ADDRESS', 'Lebanon'),
+        'profile_image' => env('ADMIN_PROFILE_IMAGE', 'images/profile.png'),
+        'info' => env('ADMIN_INFO', ''),
+        'bio' => env('ADMIN_BIO', ''),
+        'facebook' => env('ADMIN_FACEBOOK', ''),
+        'instagram' => env('ADMIN_INSTAGRAM', ''),
+        'youtube' => env('ADMIN_YOUTUBE', ''),
+        'github' => env('ADMIN_GITHUB', ''),
+        'linkedin' => env('ADMIN_LINKEDIN', ''),
+
     ],
 
 ];

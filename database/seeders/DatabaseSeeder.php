@@ -28,19 +28,18 @@ class DatabaseSeeder extends Seeder
 
         if (!$existingAdmin) {
             Admin::create([
-                'email' => env('ADMIN_EMAIL', 'admin@yourdomain.com'),
-                'name' => 'Admin',
-                'password' => Hash::make(env('ADMIN_PASSWORD', 'password')),
-                'phone' => env('ADMIN_PHONE', ''),
-                'address' => env('ADMIN_ADDRESS', ''),
-                'image_url' => env('ADMIN_IMAGE_URL', ''),
-                'facebook_url' => env('ADMIN_FACEBOOK_URL', ''),
-                'instagram_url' => env('ADMIN_INSTAGRAM_URL', ''),
-                'linkedin_url' => env('ADMIN_LINKEDIN_URL', ''),
-                'github_url' => env('ADMIN_GITHUB_URL', ''),
-                'youtube_url' => env('ADMIN_YOUTUBE_URL', ''),
-                'bio' => env('ADMIN_BIO', ''),
-                'info' => env('ADMIN_INFO', '')
+                'name' => config('app.admin.name'),
+                'email' => config('app.admin.email'),
+                'password' => Hash::make(config('app.admin.password')),
+                'info' => config('app.admin.info'),
+                'bio' => config('app.admin.bio'),
+                'phone' => config('app.admin.phone'),
+                'address' => config('app.admin.address'),
+                'facebook_url' => config('app.admin.facebook'),
+                'instagram_url' => config('app.admin.instagram'),
+                'youtube_url' => config('app.admin.youtube'),
+                'linkedin_url' => config('app.admin.linkedin'),
+                'github_url' => config('app.admin.github'),
             ]);
         }
 

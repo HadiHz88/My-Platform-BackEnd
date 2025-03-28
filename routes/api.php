@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Dashboard\DashboardBlogController;
 use App\Http\Controllers\Dashboard\DashboardProjectController;
 use App\Http\Controllers\Public\HomeController;
@@ -16,3 +17,17 @@ Route::group(['prefix' => 'dashboard'], function () {
 });
 
 Route::get('/home', [HomeController::class, "index"]);
+
+
+
+
+Route::prefix('admin')->group(function () {
+    Route::post('/register', [AdminAuthController::class, 'register']);
+    Route::post('/login', [AdminAuthController::class, 'login']);
+    Route::get('/test',[AdminAuthController::class, 'test']);
+
+    Route::middleware('auth.admin')->group(function () {
+        Route::post('/logout', [AdminAuthController::class, 'logout']);
+        Route::get('/user', [AdminAuthController::class, 'user']);
+    });
+});

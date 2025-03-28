@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -10,6 +11,10 @@ class Admin extends Model
 {
 
     use HasApiTokens, Notifiable;
+
+    public $timestamps = false;
+
+    protected $guard  = 'admin';
 
     protected $fillable = [
         'name',
@@ -25,8 +30,7 @@ class Admin extends Model
         'github_url',
         'youtube_url',
         'must_change_password',
-        'is_active',
-        'last_login_at',
+        'password'
     ];
 
     protected $hidden = [
@@ -35,9 +39,7 @@ class Admin extends Model
     ];
 
     protected $casts = [
-        'last_login_at' => 'datetime',
         'must_change_password' => 'boolean',
-        'is_active' => 'boolean',
     ];
 
     public function setPasswordAttribute($value): void
