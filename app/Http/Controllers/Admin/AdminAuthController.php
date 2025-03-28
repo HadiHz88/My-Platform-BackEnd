@@ -13,15 +13,8 @@ use Illuminate\Validation\ValidationException;
 
 class AdminAuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(AdminLoginRequest $request)
     {
-        \Log::debug('Login attempt', $request->all());
-
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
         $admin = Admin::where('email', $request->email)->first();
 
         if (!$admin || !Hash::check($request->password, $admin->password)) {
@@ -45,63 +38,25 @@ class AdminAuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
-    public function user(Request $request)
+    public function changePassword(PasswordChangeRequest $request)
     {
-        return response()->json($request->user());
-    }
+        $admin = Auth::guard('admin')->user();
 
-    public function register(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins',
-            'password' => 'required|string|min:8|confirmed',
+        if (!Hash::check($request->current_password, $admin->password)) {
+            return response()->json([
+                'message' => 'Current password is incorrect'
+            ], 422);
+        }
+
+        // Update password
+        $admin->update([
+            'password' => $request->password,
+            'must_change_password' => false
         ]);
-
-        $admin = Admin::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']), // Make sure this line is present
-        ]);
-
-        $token = $admin->createToken('remember_token')->plainTextToken;
 
         return response()->json([
-            'admin' => $admin,
-            'token' => $token,
-        ], 201);
+            'message' => 'Password successfully updated'
+        ]);
     }
-
-//    public function changePassword(PasswordChangeRequest $request)
-//    {
-//        $admin = Auth::guard('admin')->user();
-//
-//        // Verify current password
-//        if (!Hash::check($request->current_password, $admin->password)) {
-//            return response()->json([
-//                'message' => 'Current password is incorrect'
-//            ], 422);
-//        }
-//
-//        // Update password
-//        $admin->update([
-//            'password' => $request->password,
-//            'must_change_password' => false
-//        ]);
-//
-//        return response()->json([
-//            'message' => 'Password successfully updated'
-//        ]);
-//    }
-
-public function test()
-{
-
-    setcookie('testCookie 2', 'hello from cookie');
-
-    return response()->json([
-        'message' => 'test hello from AdminAuthController',
-    ]);
-}
 
 }

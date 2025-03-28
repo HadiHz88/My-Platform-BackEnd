@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             Admin::create([
                 'name' => config('app.admin.name'),
                 'email' => config('app.admin.email'),
-                'password' => Hash::make(config('app.admin.password')),
+                'password' => config('app.admin.password'),
                 'info' => config('app.admin.info'),
                 'bio' => config('app.admin.bio'),
                 'phone' => config('app.admin.phone'),

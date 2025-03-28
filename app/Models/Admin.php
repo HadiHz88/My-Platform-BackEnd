@@ -46,9 +46,4 @@ class Admin extends Model
     {
         $this->attributes['password'] = bcrypt($value);
     }
-
-    public function getMustChangePasswordAttribute()
-    {
-        return $this->must_change_password;
-    }
 }

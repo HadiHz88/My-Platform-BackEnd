@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EnsureAdminIsAuthenticated
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next): \Illuminate\Http\JsonResponse
     {
         if (!Auth::guard('admin')->check()) {
             return response()->json(['message' => 'Unauthenticated.'], 401);
